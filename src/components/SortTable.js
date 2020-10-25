@@ -18,7 +18,7 @@ export const EmployeeTable = () => {
      const tableInstance = useTable ({
         columns: Columns,
         data: eListJson
-    })
+    }, useSortby)
 
     // destructor the tableInstance
     const {
@@ -34,13 +34,17 @@ export const EmployeeTable = () => {
         <div>
             <table {...getTableProps()}>
                 <thead>
-                    {
-                        headerGroups.map(headerGroup => (
+                    {headerGroups.map(headerGroup => (
                         // ^Gives Us access to the individual header group.^
                     <tr {...headerGroup.getHeaderGroupProps()}>
-                        {
-                            headerGroup.headers.map((column) => (
-                                <th {...column.getHeaderProps()}>{column.render('Header')} </th>
+                        {headerGroup.headers.map((column) => (
+                                <th {...column.getHeaderProps(column.getSortbyToggleProps)}>
+                                    {column.render('Header')} 
+                                    <span>
+                                        {column.isSorted ? (column.isSortedDesc ? '🔽'
+                                                : ' 🔼')}
+                                    </span>
+                                    </th>
                             ))
                         }
                     </tr>
